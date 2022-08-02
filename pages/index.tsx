@@ -18,7 +18,7 @@ const Home: NextPage = () => {
           <h1 className='text-6xl max-w-xl font-serif'>
             <span className='underline decoration-black decoration-4 '>
               Medium 
-            </span>{" "}
+            </span>{" "}  
           is a place to write, read and connect. 
           </h1>
           <h2>
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
           </h2>
         </div>
 
-        <img className='hidden md:inline-flex h-32 lg:h-full' src="https://www.nicepng.com/png/detail/48-483810_medium-logo-medium-social-media-icon-png.png" 
+        <img className='hidden md:inline-flex h-32 lg:h-full bg-transparent' src="https://raw.githubusercontent.com/satish860/MediumBlog/main/public/Medium-M-Icon.png" 
          alt=""/>
       </div>
     </div>
