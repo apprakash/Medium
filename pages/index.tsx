@@ -2,8 +2,16 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Header from '../Components/Header'
+import {sanityClient} from '../sanity'
+import {Post} from '../typings'
+import Link from "next/link"
 
-const Home: NextPage = () => {
+interface PostProps {
+  posts: [Post];
+}
+
+const Home: NextPage<PostProps> = ({posts}: PostProps) => {
+  console.log(posts);
   return (
     <div className='max-w-7xl mx-auto'>
       <Head>
@@ -22,7 +30,7 @@ const Home: NextPage = () => {
           is a place to write, read and connect. 
           </h1>
           <h2>
-            It's easy and free to post your thinking on any topic and connect 0
+            It's easy and free to post your thinking on any topic and connect 
             with millions of readers. 
           </h2>
         </div>
@@ -30,8 +38,37 @@ const Home: NextPage = () => {
         <img className='hidden md:inline-flex h-32 lg:h-full' src="https://accountabilitylab.org/wp-content/uploads/2020/03/Medium-logo.png" 
          alt=""/>
       </div>
+
+      {/* Posts */}
+
+      <div>
+      </div>
+ 
     </div>
-  )
+  );
 }
 
 export default Home
+
+export const getServerSideProps = async () => {
+  const query = `
+  *[_type == "post"]{
+    _id,
+    title,
+    author ->{
+    name,
+    image
+  },
+    description,
+    mainImage,
+    slug
+  }
+  `;
+
+  const initialPosts = await sanityClient.fetch(query);
+  return {
+    props: {
+      posts: initialPosts,
+    },
+  };
+};
