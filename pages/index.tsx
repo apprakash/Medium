@@ -22,7 +22,7 @@ const Home: NextPage = () => {
           is a place to write, read and connect. 
           </h1>
           <h2>
-            It's easy and free to post your thinking on any topic and connect 
+            It's easy and free to post your thinking on any topic and connect 0
             with millions of readers. 
           </h2>
         </div>
