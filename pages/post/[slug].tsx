@@ -4,6 +4,7 @@ import { Post } from "../../typings";
 import { GetStaticProps } from "next";
 import PortableText from "react-portable-text";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 
 interface IFormInput {
   _id: string;
@@ -18,6 +19,8 @@ interface Props {
 
 function Post({post }: Props) {
 
+  const [submitted, SetSubmitted] = useState(false);
+
   const { register, handleSubmit, formState: {errors} } = useForm<IFormInput>();
   
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -27,9 +30,11 @@ function Post({post }: Props) {
     })
       .then(() => {
         console.log(data);
+        SetSubmitted(true);
       })
       .catch((err) => {
         console.log(err);
+        SetSubmitted(false);
       });
   };
 
@@ -97,6 +102,14 @@ function Post({post }: Props) {
 
       <hr className="max-w-lg my-5 mx-auto border border-yellow-500" />
 
+      { submitted ? (
+        <div 
+          className="flex flex-col p-10 my-10 
+           bg-yellow-500 text-white max-w-2xl mx-auto">
+          <h3 className="text-3xl font-bold">Thank you for submitting your comments</h3>
+          <p>Once it has been approved, it will appear below!</p>
+        </div>
+      ) : (
       <form 
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
@@ -159,6 +172,8 @@ function Post({post }: Props) {
           />
 
       </form>
+      )}
+      
     </main>
   ); 
 }
