@@ -7,8 +7,14 @@ interface Props {
     post: Post;
 }
 
-function Post(props: Props) {
-  return <div></div>;
+function Post(post : Props) {
+  console.log(post);
+
+  return (
+    <main>
+      <Header />
+    </main>
+  ); 
 }
 
 export default Post;
