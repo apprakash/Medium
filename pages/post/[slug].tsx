@@ -5,12 +5,34 @@ import { GetStaticProps } from "next";
 import PortableText from "react-portable-text";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+interface IFormInput {
+  _id: string;
+  name: string;
+  email: string;
+  comment: string;
+}
+
 interface Props {
     post: Post;
 }
 
 function Post({post }: Props) {
+
+  const { register, handleSubmit, formState: {errors} } = useForm<IFormInput>();
   
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    await fetch("/api/CreateComment", {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then(() => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <main>
       <Header />
@@ -75,15 +97,20 @@ function Post({post }: Props) {
 
       <hr className="max-w-lg my-5 mx-auto border border-yellow-500" />
 
-      <form className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
+      <form 
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
 
         <h3 className="text-sm text-yellow-500">Enjoyed this article?</h3>
         <h4 className="text-3xl font-bold">Leave a comment below!</h4>
         <hr className="py-3 mt-2" />
 
+        <input type="hidden" value={post._id} {...register("_id")} name= "_id" />
+
         <label className="block mb-5">
           <span className="text-gray-700">Name</span>
           <input
+            {...register("name", { required: true })}
             className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring"
             placeholder="Enter Name" type="text" />
         </label>
@@ -91,16 +118,45 @@ function Post({post }: Props) {
         <label className="block mb-5">
           <span className="text-gray-700">E-mail</span>
           <input
+            {...register("email", { required: true })}
             className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring"
-            placeholder="Enter address" type="text" />
+            placeholder="Enter address" type="email" />
         </label>
 
         <label className="block mb-5">
           <span className="text-gray-700">Comment</span>
           <textarea
+            {...register("comment", { required: true })}
             className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500 outline-none focus:ring" 
-            placeholder="Enter here" rows={8} />
+            placeholder="Enter here" 
+            rows={8} />
         </label>
+
+        {/* errors willl return when field validation fails */}
+
+        <div className="flex flex-col p-5">
+          {errors.name && (
+            <span className="text-red-500">- The name field is required
+            </span>
+          )}
+          {errors.email && (
+            <span className="text-red-500">
+                - The Email field is required
+            </span>
+          )}
+          {errors.comment && (
+            <span className="text-red-500">
+              - The Comment field is required
+            </span> 
+          )}
+        </div>
+
+        <input
+            type="submit"
+            className="shadow bg-yellow-500 hover:bg-yellow-400 
+            focus:outline-none text-white font-bold py-4 px-4 rounded 
+            cursor-pointer"
+          />
 
       </form>
     </main>
