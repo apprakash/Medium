@@ -18,6 +18,7 @@ interface Props {
 }
 
 function Post({post }: Props) {
+  console.log(post)
 
   const [submitted, SetSubmitted] = useState(false);
 
@@ -178,16 +179,16 @@ function Post({post }: Props) {
       <div className="flex flex-col p-10 my-10 max-w-2xl mx-auto shadow-yellow-500 space-y-2">
         <h3 className="text-4xl">Comments</h3>
         <hr className="pb-2"/>
-        {/* {post.comment.map ((comment) => (
+        {post.comment.map((comment) => (
           <div key={comment._id}>
-            <p>
+            <div>
               <span className="text-yellow-500">
                 {comment.name}:
               </span>
               {comment.comment}
-            </p>
+            </div>
           </div>
-        ))} */}
+        ))}
       </div>
       
     </main>
@@ -226,7 +227,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           name,
           image
         },
-        'comments': *[
+        'comment': *[
           _type == "comment" && 
           post._ref == ^._id && 
           approved == true
