@@ -11,7 +11,6 @@ interface PostProps {
 }
 
 const Home: NextPage<PostProps> = ({posts}: PostProps) => {
-  console.log(posts);
   return (
     <div className='max-w-7xl mx-auto'>
       <Head>
