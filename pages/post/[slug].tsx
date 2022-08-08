@@ -1,4 +1,4 @@
-import {sanityClient, urlFor} from "E:/code/React/medium/sanity"
+import {sanityClient, urlFor} from "../../sanity"
 import Header from "../../Components/Header";
 import { Post } from "../../typings";
 import { GetStaticProps } from "next";
